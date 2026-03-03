@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "charliermarsh.ruff",
+    "EditorConfig.EditorConfig",
+    "eamodio.gitlens",
+    "usernamehw.errorlens"
+  ]
+}

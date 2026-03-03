@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.autoIndent": "advanced",
+  "editor.rulers": [
+    100
+  ],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "python.linting.enabled": true,
+  "python.terminal.activateEnvironment": true,
+}
