@@ -10,26 +10,21 @@ CORS(app)
 
 @app.route("/", methods=["GET"])
 def root():
-    return {"hello": "world!!!!"}
+    return {"hello": "world"}
 
 
-@app.route("/hello_world", methods=["GET"])
+@app.route("/hello_world")
 def hello_world():
     return "<p>Hello, World!</p>"
 
 
-@app.route("/training_data", methods=["GET"])
+@app.route("/training_data")
 def training_data():
-    training_data = pd.read_csv(os.path.join("data", "auto-mpg.csv"))
+    training_data = pd.read_csv(os.path.join("data", "auto-mpg.csv"), sep=";")
     return Response(training_data.to_json(), mimetype="application/json")
 
 
-file_to_open = open(os.path.join("data", "models", "baummethoden_lr.pickle"), "rb")
-trained_model = pickle.load(file_to_open)
-file_to_open.close()
-
-
-@app.route("/predict", methods=["GET"])
+@app.route("/predict")
 def predict():
     zylinder = float(request.args.get("zylinder"))
     ps = float(request.args.get("ps"))
@@ -37,12 +32,13 @@ def predict():
     beschleunigung = float(request.args.get("beschleunigung"))
     baujahr = float(request.args.get("baujahr"))
 
-    print(
-        f"Received request with zylinder: {zylinder}, ps: {ps}, gewicht: {gewicht}, beschleunigung: {beschleunigung}, baujahr: {baujahr}"
+    file_to_open = open(os.path.join("data", "models", "baummethoden_lr.pickle"), "rb")
+    trained_model = pickle.load(file_to_open)
+    file_to_open.close()
+
+    prediction = trained_model.predict(
+        [[zylinder, ps, gewicht, beschleunigung, baujahr]]
     )
-
-    prediction_data = [[zylinder, ps, gewicht, beschleunigung, baujahr]]
-
-    prediction = trained_model.predict(prediction_data)
+    print("prediction", prediction[0])
 
     return {"result": prediction[0]}
